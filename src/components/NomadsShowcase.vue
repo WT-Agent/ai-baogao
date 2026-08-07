@@ -2,10 +2,10 @@
   <section class="nomads-showcase-section">
     <div class="showcase-header">
       <div class="header-left">
-        <h2 class="showcase-title">实践与课堂报告实战模板库</h2>
-        <p class="showcase-subtitle">精选高校社会实践、实验实训与毕业实习报告场景，点击“一键套用”快速生成</p>
+        <h2 class="showcase-title">实战案例与模板库 (Nomads Showcase)</h2>
+        <p class="showcase-subtitle">精选高频实战场景，点击“一键套用”快速生成高质量结果</p>
       </div>
-      <span class="showcase-badge">已收录 {{ showcaseItems.length }} 个报告模板</span>
+      <span class="showcase-badge">已收录 {{ showcaseItems.length }} 个实战模板</span>
     </div>
 
     <div class="showcase-grid">
@@ -41,8 +41,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+const props = defineProps<{
+  appTitle?: string;
+  isImage?: boolean;
+}>();
+
 const emit = defineEmits<{
-  (e: 'apply-template', payload: { prompt: string; reportType?: string; majorGroup?: string }): void;
+  (e: 'apply-template', payload: { prompt: string; style?: string }): void;
 }>();
 
 export interface ShowcaseItem {
@@ -50,73 +55,105 @@ export interface ShowcaseItem {
   tag: string;
   title: string;
   prompt: string;
-  reportType?: string;
-  majorGroup?: string;
+  style?: string;
   usageCount: string;
 }
 
-const showcaseItems = computed<ShowcaseItem[]>(() => [
-  {
-    id: 'baogao-1',
-    tag: '社会实践',
-    title: '乡村振兴数字电商赋能调研报告',
-    prompt: '暑期赴山区农村开展特色农产品直播电商调研，围绕农户意愿、物流痛点、品牌包装及后续帮扶对策撰写 3000 字社会实践报告。',
-    reportType: '社会实践与调研报告',
-    majorGroup: '人文社科类',
-    usageCount: '48.9k'
-  },
-  {
-    id: 'baogao-2',
-    tag: '专业实训',
-    title: '软件工程 Web 全栈项目开发实训总结',
-    prompt: '为期两周的基于 Vue 与 Node.js 电商平台开发实训，记录数据库设计、API 调试、团队 Git 协同及遇到的异步 BUG 解决心得。',
-    reportType: '专业实训与实验报告',
-    majorGroup: '理工农医类',
-    usageCount: '41.3k'
-  },
-  {
-    id: 'baogao-3',
-    tag: '毕业实习',
-    title: '互联网公司产品运营岗位实习报告',
-    prompt: '在科技公司担任产品运营实习生 3 个月，总结用户增长活动策划、数据分析指标跟踪、跨部门沟通及自我能力提升感悟。',
-    reportType: '毕业实习与岗位总结',
-    majorGroup: '经济管理类',
-    usageCount: '53.6k'
-  },
-  {
-    id: 'baogao-4',
-    tag: '工科实验',
-    title: '电子信息工程电路仿真与焊接测试',
-    prompt: '基于 Proteus 的简易示波器电路设计与 PCB 焊接调试实验报告，记录波形失真原因分析及仪器使用体会。',
-    reportType: '专业实训与实验报告',
-    majorGroup: '理工农医类',
-    usageCount: '29.7k'
-  },
-  {
-    id: 'baogao-5',
-    tag: '教育实习',
-    title: '中学语文课堂教学与班主任实习总结',
-    prompt: '赴县城中学开展为期一学期的教育实习，总结教案编写、课堂试讲互动、后进生心理辅导及教育理念升华。',
-    reportType: '毕业实习与岗位总结',
-    majorGroup: '师范教育类',
-    usageCount: '36.1k'
-  },
-  {
-    id: 'baogao-6',
-    tag: '学术研讨',
-    title: '人工智能前沿算法课程研讨与读书心得',
-    prompt: '阅读大语言模型 Transformer 架构经典论文后，撰写 2000 字研讨课汇报，剖析注意力机制与未来 AGIC 发展趋势。',
-    reportType: '课堂学术研讨与心得',
-    majorGroup: '理工农医类',
-    usageCount: '32.4k'
+// 模拟实战案例数据库（支持根据文本/图像类及应用主题切换）
+const showcaseItems = computed<ShowcaseItem[]>(() => {
+  if (props.isImage) {
+    return [
+      {
+        id: 'img-1',
+        tag: '写真肖像',
+        title: '商务精英形象照',
+        prompt: '高端写字楼背景，身穿深蓝色西装，眼神自信专注，赛博朋克光影效果',
+        style: '<photography>',
+        usageCount: '18.5k'
+      },
+      {
+        id: 'img-2',
+        tag: '概念插画',
+        title: '未来科幻城市海报',
+        prompt: '霓虹灯光的赛博朋克立体城市，飞行汽车，高品质概念插画，8k分辨率',
+        style: '<illustration>',
+        usageCount: '24.1k'
+      },
+      {
+        id: 'img-3',
+        tag: '二次元动漫',
+        title: '日系国潮动漫角色',
+        prompt: '穿着现代汉服的国风少年，手持纸伞，水彩漫感，唯美光感与柔光滤镜',
+        style: '<anime>',
+        usageCount: '15.9k'
+      },
+      {
+        id: 'img-4',
+        tag: '水彩艺术',
+        title: '治愈系自然风景画',
+        prompt: '晨雾中的森林湖泊，阳光穿透树林，水彩渐变质感，温馨治愈风格',
+        style: '<watercolor>',
+        usageCount: '12.3k'
+      }
+    ];
+  } else {
+    return [
+      {
+        id: 'text-1',
+        tag: '职场总结',
+        title: '周报 OKR 成果提炼',
+        prompt: '本周完成了核心模块优化与线上异常排查，请帮我梳理为具备量化指标的 OKR 汇报文案',
+        style: '专业干练，结果导向',
+        usageCount: '32.8k'
+      },
+      {
+        id: 'text-2',
+        tag: '高情商沟通',
+        title: '拒绝不合理加班话术',
+        prompt: '领导在周末突然布置非紧急任务，如何高情商、委婉且有理有据地推迟到工作日处理？',
+        style: '高情商，委婉，有情调',
+        usageCount: '28.4k'
+      },
+      {
+        id: 'text-3',
+        tag: '短视频文案',
+        title: '知识干货吸睛开头',
+        prompt: '准备制作一条关于高效学习法的短视频，设计 3 个能在前 3 秒留住用户的爆款口播开头',
+        style: '专业干练，结果导向',
+        usageCount: '45.1k'
+      },
+      {
+        id: 'text-4',
+        tag: '商务公文',
+        title: '跨部门协同申请函',
+        prompt: '因项目上线需要研发部门配合联调，撰写一份正式、严谨且明确时间节点的协同申请书',
+        style: '专业干练，结果导向',
+        usageCount: '19.7k'
+      },
+      {
+        id: 'text-5',
+        tag: '小红书种草',
+        title: '实战干货笔记排版',
+        prompt: '分享 5 个提升日常工作效率的文字工具，语言亲切，搭配吸引人的标题与 Emoji 排版',
+        style: '高情商，委婉，有情调',
+        usageCount: '36.2k'
+      },
+      {
+        id: 'text-6',
+        tag: '学术润色',
+        title: '论文摘要与结论重构',
+        prompt: '将以下粗糙的研究结论重写为学术规范、逻辑严密且无语法语病的论文摘要总结',
+        style: '专业干练，结果导向',
+        usageCount: '22.0k'
+      }
+    ];
   }
-]);
+});
 
 function applyTemplate(item: ShowcaseItem) {
   emit('apply-template', {
     prompt: item.prompt,
-    reportType: item.reportType,
-    majorGroup: item.majorGroup
+    style: item.style
   });
 }
 </script>
